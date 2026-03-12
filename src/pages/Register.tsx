@@ -1,16 +1,16 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { 
-  Cloud, 
-  Zap, 
-  Car, 
-  Wind, 
-  Droplets, 
-  Radio, 
-  ArrowLeft, 
-  ArrowRight, 
-  Copy, 
+import {
+  Cloud,
+  Zap,
+  Car,
+  Wind,
+  Droplets,
+  Radio,
+  ArrowLeft,
+  ArrowRight,
+  Copy,
   ExternalLink,
   Loader2
 } from 'lucide-react'
@@ -43,7 +43,6 @@ export default function Register() {
   const [isSuccess, setIsSuccess] = useState(false)
   const [txHash, setTxHash] = useState('')
   const [deviceId, setDeviceId] = useState('')
-  const navigate = useNavigate()
 
   const [formData, setFormData] = useState<FormData>({
     deviceName: '',
@@ -74,7 +73,7 @@ export default function Register() {
     setIsSubmitting(true)
     // Simulate blockchain transaction
     await new Promise(resolve => setTimeout(resolve, 2000))
-    
+
     // Mock success data
     setTxHash('0x7f3a9b2c4d5e6f8a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4b291')
     setDeviceId('1847')
@@ -95,21 +94,19 @@ export default function Register() {
       {[1, 2, 3].map((step) => (
         <div key={step} className="flex items-center">
           <div
-            className={`w-10 h-10 rounded-full flex items-center justify-center font-medium transition-all ${
-              step === currentStep
-                ? 'bg-purple-500 text-white'
-                : step < currentStep
+            className={`w-10 h-10 rounded-full flex items-center justify-center font-medium transition-all ${step === currentStep
+              ? 'bg-purple-500 text-white'
+              : step < currentStep
                 ? 'bg-purple-500/30 text-purple-300'
                 : 'bg-white/10 text-gray-400'
-            }`}
+              }`}
           >
             {step < currentStep ? '✓' : step}
           </div>
           {step < 3 && (
             <div
-              className={`w-16 h-0.5 mx-2 transition-all ${
-                step < currentStep ? 'bg-purple-500' : 'bg-white/10'
-              }`}
+              className={`w-16 h-0.5 mx-2 transition-all ${step < currentStep ? 'bg-purple-500' : 'bg-white/10'
+                }`}
             />
           )}
         </div>
@@ -136,20 +133,24 @@ export default function Register() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Device Type *</label>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <label className="block text-sm font-medium text-gray-300 mb-4">Device Type *</label>
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           {deviceTypes.map((type) => (
             <button
               key={type.value}
               onClick={() => updateFormData('deviceType', type.value)}
-              className={`p-4 rounded-lg border transition-all ${
-                formData.deviceType === type.value
-                  ? 'border-purple-500 bg-purple-500/20'
-                  : 'border-white/10 bg-white/5 hover:border-white/20'
-              }`}
+              className={`group relative p-6 rounded-2xl border transition-all duration-300 overflow-hidden text-left ${formData.deviceType === type.value
+                ? 'border-primary bg-primary/20 shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+                : 'border-white/10 bg-white/5 hover:border-primary/50 hover:bg-white/10'
+                }`}
             >
-              <type.icon className="w-6 h-6 mx-auto mb-2 text-purple-400" />
-              <div className="text-sm">{type.label}</div>
+              <div className={`absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 transition-opacity duration-300 ${formData.deviceType === type.value ? 'opacity-100' : 'group-hover:opacity-50'}`}></div>
+              <div className="relative z-10 flex flex-col items-center justify-center space-y-3">
+                <div className={`p-3 rounded-full transition-colors duration-300 ${formData.deviceType === type.value ? 'bg-primary border border-primary/50' : 'bg-gray-800 border border-gray-700 group-hover:bg-primary/20'}`}>
+                  <type.icon className={`w-8 h-8 transition-colors duration-300 ${formData.deviceType === type.value ? 'text-white' : 'text-gray-400 group-hover:text-primary'}`} />
+                </div>
+                <div className={`font-semibold text-center transition-colors duration-300 ${formData.deviceType === type.value ? 'text-white' : 'text-gray-300'}`}>{type.label}</div>
+              </div>
             </button>
           ))}
         </div>
@@ -379,9 +380,9 @@ export default function Register() {
       <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
         <span className="text-2xl">✅</span>
       </div>
-      
+
       <h2 className="text-2xl font-bold text-white">Device Registered Successfully!</h2>
-      
+
       <div className="space-y-4">
         <div className="p-4 rounded-lg bg-white/5 border border-white/10">
           <div className="text-gray-400 text-sm mb-1">Transaction Hash</div>
@@ -395,13 +396,13 @@ export default function Register() {
             </button>
           </div>
         </div>
-        
+
         <div className="p-4 rounded-lg bg-white/5 border border-white/10">
           <div className="text-gray-400 text-sm mb-1">Device ID</div>
           <div className="text-white text-lg font-bold">#{deviceId}</div>
         </div>
       </div>
-      
+
       <div className="flex justify-center space-x-4">
         <a
           href={`https://creditcoin-testnet.blockscout.com/tx/${txHash}`}
@@ -425,13 +426,13 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-[#080b14] text-white">
       <Navbar />
-      
+
       <div className="pt-16 p-8">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-4xl font-bold mb-8">Register Your Device</h1>
-          
+
           {!isSuccess && renderStepIndicator()}
-          
+
           <div className="p-8 rounded-2xl border border-white/10 backdrop-blur-lg bg-white/5">
             {isSuccess ? renderSuccess() : (
               <>
