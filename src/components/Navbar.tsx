@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Wifi, Zap, Menu, X, ExternalLink, Wallet } from 'lucide-react'
 import { ethers } from 'ethers'
+import { motion } from 'framer-motion'
+
+// Type declaration for window.ethereum
+declare global {
+  interface Window {
+    ethereum?: any
+  }
+}
 
 export default function Navbar() {
   const [account, setAccount] = useState<string | null>(null)
@@ -92,6 +100,11 @@ export default function Navbar() {
   }
 
   const switchNetwork = async () => {
+    if (!window.ethereum) {
+      console.error('MetaMask is not installed')
+      return
+    }
+    
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
